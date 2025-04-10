@@ -25,12 +25,14 @@ SECRET_KEY = 'django-insecure-83zc$(+80^03hh!sg=7y-a($q!d0fqp$8(v+xhi$$m2$59or(*
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+ALLOWED_HOSTS = ['healthcare.onrender.com']
 
 import os
 from dotenv import load_dotenv
 
 load_dotenv() 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -53,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
+
 ]
 
 ROOT_URLCONF = 'healthcare.urls'
@@ -119,8 +123,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATIC_URL = 'static/'
+
 LOGIN_URL = '/login/'  # or whatever your login URL is
 
 
