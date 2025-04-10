@@ -9,8 +9,9 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth import logout
 from django.shortcuts import redirect
-
-
+from django.views.decorators.cache import never_cache
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_control
 
 
 
@@ -26,34 +27,6 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from .models import Profile  # Assuming you have a Profile model
 
-# def login_view(request, role=None):
-#     if request.user.is_authenticated:
-#         if request.user.profile.role == 'doctor':
-#             return redirect('doctor_dashboard')
-#         elif request.user.profile.role == 'patient':
-#             return redirect('patient_dashboard')
-#         elif request.user.profile.role == 'medical':
-#             return redirect('medical_dashboard')
-
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         user = authenticate(request, username=username, password=password)
-#         if user is not None and user.profile.role == role:
-#             login(request, user)
-#             if role == 'doctor':
-#                 return redirect('doctor_dashboard')
-#             elif role == 'patient':
-#                 return redirect('patient_dashboard')
-#             elif role == 'medical':
-#                 return redirect('medical_dashboard')
-#         else:
-#             return render(request, 'core/login.html', {
-#                 'error': 'Invalid credentials or role mismatch',
-#                 'role': role
-#             })
-
-#     return render(request, 'core/login.html', {'role': role})
 
 
 def login_view(request, role):
@@ -66,7 +39,9 @@ def login_view(request, role):
     return render(request, 'core/login.html', {'role': role})
 from .models import DoctorFee  # make sure this is imported
 
-@login_required
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='/login/doctor/')
 def doctor_dashboard(request):
     patients = PatientRecord.objects.filter(doctor=request.user)
 
@@ -81,10 +56,7 @@ def doctor_dashboard(request):
     })
 
 
-# def doctor_dashboard(request):
-#     patients = PatientRecord.objects.filter(doctor=request.user)
-#     return render(request, 'core/doctor_dashboard.html', {'patients': patients})
-@login_required
+
 def register_patient(request):
     if request.method == 'POST':
         name = request.POST['name']
@@ -116,11 +88,16 @@ def register_patient(request):
 
     return render(request, 'core/register_patient.html')
 
-@login_required
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='/login/patient/')
 def patient_dashboard(request):
     records = PatientRecord.objects.filter(patient=request.user)
     return render(request, 'core/patient_dashboard.html', {'records': records})
 
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='/login/store/')
 def store_dashboard(request):
     medicines = Medicine.objects.all()
     return render(request, 'core/store_dashboard.html', {'medicines': medicines})
@@ -156,15 +133,6 @@ def add_medicine(request):
     return render(request, 'core/add_medicine.html')
 
 
-# def add_medicine(request):
-#     if request.method == 'POST':
-#         name = request.POST['name']
-#         quantity = int(request.POST['quantity'])
-#         med, created = Medicine.objects.get_or_create(name=name)
-#         med.quantity += quantity
-#         med.save()
-#         return redirect('store_dashboard')
-#     return render(request, 'core/add_medicine.html')
 
 def issue_medicine(request):
     if request.method == 'POST':
@@ -302,24 +270,6 @@ def recommend_doctor(request):
         return render(request, 'core/doctor_recommendation.html', {'recommendation': recommendation})
 
 
-# def recommend_doctor(request):
-#     if request.method == 'POST':
-#         symptoms = request.POST.get('symptoms')
-
-#         # Get the latest patient record of the logged-in user
-#         record = PatientRecord.objects.filter(patient=request.user).order_by('-date').first()
-
-#         if record:
-#             age = record.age
-#         else:
-#             age = 30  # default age if not found
-
-#         recommendation = query_huggingface(symptoms, age)
-
-#         return render(request, 'core/patient_dashboard.html', {
-#             'recommendation': recommendation,
-#             'records': PatientRecord.objects.filter(patient=request.user)
-#         })
 
 def get_health_tip(question):
     import requests

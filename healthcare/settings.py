@@ -28,11 +28,13 @@ DEBUG = True
 ALLOWED_HOSTS = ['healthcare.onrender.com']
 
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv() 
+# load_dotenv() 
 
 ALLOWED_HOSTS = ['*']
+# In settings.py, add this custom middleware class
+
 
 
 # Application definition
@@ -55,7 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware'
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'healthcare.middleware.NoCacheMiddleware',
 
 ]
 
