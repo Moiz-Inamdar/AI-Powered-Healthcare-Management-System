@@ -402,3 +402,8 @@ def patients_list(request):
     # Fetch all patients along with their prescribed medicines
     patients = PatientRecord.objects.all().order_by('-date')  # You can order them by the date they were created or any other field
     return render(request, 'core/patients_list.html', {'patients': patients})
+
+
+# git add .
+# git commit -m "Updated HTML file"
+# git push origin main

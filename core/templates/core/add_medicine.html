@@ -1,31 +1,65 @@
 <!-- templates/add_medicine.html -->
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Add Medicine</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+    </style>
 </head>
-<body class="container mt-5">
-    <h2>Add Medicine</h2>
-    
-    {% if error %}
-        <div class="alert alert-danger">{{ error }}</div>
-    {% endif %}
+<body>
 
-    <form method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="name" class="form-label">Medicine Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+<div class="container mt-5">
+    <div class="form-container">
+        <h2>Add Medicine</h2>
+
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        
+        {% if success %}
+            <div class="alert alert-success">{{ success }}</div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">Medicine Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="e.g. Paracetamol" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input type="number" class="form-control" id="quantity" name="quantity" placeholder="e.g. 50" required>
+            </div>
+
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary">Add Medicine</button>
+            </div>
+        </form>
+
+        <div class="d-grid">
+            <a href="{% url 'store_dashboard' %}" class="btn btn-secondary">← Back to Dashboard</a>
         </div>
+    </div>
+</div>
 
-        <div class="mb-3">
-            <label for="quantity" class="form-label">Quantity</label>
-            <input type="number" class="form-control" id="quantity" name="quantity" required>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Add Medicine</button>
-    </form>
 </body>
 </html>
