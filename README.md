@@ -4,7 +4,7 @@
 
 Initially, my plan was to develop a simple system that included only the doctor and medical store roles. Doctors could register patients and prescribe medicines, and the store staff could view and issue those medicines efficiently.
 
-However, as part of your task requirement, we were also encouraged to integrate AI into our solution. This made me expand the project by including a patient role with AI-powered features. Now, patients can not only view their medical history but also:
+However, as part of AI Integration, I was  encouraged to integrate AI into our solution. This made me expand the project by including a patient role with AI-powered features. Now, patients can not only view their medical history but also:
 
 Get AI-powered doctor recommendations based on their symptoms.
 
