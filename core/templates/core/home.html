@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Healthcare Portal</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    body {
+      background: linear-gradient(to right, #e0f7fa, #e8f5e9);
+      overflow: hidden;
+    }
+
+    .portal-box {
+      background: white;
+      border-radius: 20px;
+      padding: 50px 40px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+      animation: slideIn 1s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .btn-custom {
+      width: 230px;
+      font-weight: 500;
+      font-size: 1.1rem;
+      padding: 10px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .btn-custom:hover {
+      transform: scale(1.07);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100">
+
+  <div class="portal-box text-center">
+    <h1 class="mb-4 text-primary">🏥 Welcome to Healthcare Portal</h1>
+    <p class="mb-4 text-muted">Choose your role to continue</p>
+
+    <div class="d-grid gap-3">
+      <a href="/login/doctor/" class="btn btn-outline-primary btn-custom">
+        <i class="bi bi-person-badge"></i> Doctor Login
+      </a>
+      <a href="/login/patient/" class="btn btn-outline-success btn-custom">
+        <i class="bi bi-person"></i> Patient Login
+      </a>
+      <a href="/login/store/" class="btn btn-outline-warning btn-custom">
+        <i class="bi bi-bag-heart"></i> Medical Store Login
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>
