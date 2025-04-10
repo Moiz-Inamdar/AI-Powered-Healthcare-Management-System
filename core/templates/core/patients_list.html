@@ -16,8 +16,9 @@
   </style>
 </head>
 <body class="container mt-5">
+  {% load static %}
   <div class="dashboard-box">
-    <h2>👩‍⚕️ Patient List</h2>
+    <h2><img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 50px; vertical-align: middle; margin-right: 10px;"> Patient List</h2>
     <a href="{% url 'store_dashboard' %}" class="btn btn-secondary mb-3">⬅️ Back to Dashboard</a>
 
     <div class="table-responsive">

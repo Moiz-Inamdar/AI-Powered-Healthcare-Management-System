@@ -47,7 +47,14 @@
 <body class="d-flex justify-content-center align-items-center vh-100">
 
   <div class="portal-box text-center">
-    <h1 class="mb-4 text-primary">🏥 Welcome to Healthcare Portal</h1>
+    {% load static %}
+
+<h1 class="mb-4 text-primary">
+    <img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 60px; vertical-align: middle; margin-right: 10px;">
+    Welcome to Healthcare Portal
+</h1>
+  
+    <!-- <h1 class="mb-4 text-primary">🏥 Welcome to Healthcare Portal</h1> -->
     <p class="mb-4 text-muted">Choose your role to continue</p>
 
     <div class="d-grid gap-3">

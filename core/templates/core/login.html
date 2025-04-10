@@ -64,9 +64,11 @@
   </style>
 </head>
 <body>
-
+  {% load static %}
   <div class="login-box text-center">
-    <h3 class="mb-4 text-primary">{{ role|title }} Login</h3>
+    <h3 class="mb-4 text-primary">
+      <img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 50px; vertical-align: middle; margin-right: 5px;">
+      {{ role|title }} Login</h3>
 
     <form method="POST">
       {% csrf_token %}

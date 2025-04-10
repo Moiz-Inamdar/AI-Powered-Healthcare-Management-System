@@ -27,8 +27,9 @@
 <body>
 
 <div class="container mt-5">
+    {% load static %}
     <div class="form-container">
-        <h2>Add Medicine</h2>
+        <h2><img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 50px; vertical-align: middle; margin-right: 10px;">Add Medicine</h2>
 
         {% if error %}
             <div class="alert alert-danger">{{ error }}</div>

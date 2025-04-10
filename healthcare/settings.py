@@ -128,6 +128,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+from pathlib import Path
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "core", "static"),
+]
+
+
+# STATIC_ROOT = BASE_DIR / "healthcare/staticfiles"
 
 
 LOGIN_URL = '/login/'  # or whatever your login URL is
