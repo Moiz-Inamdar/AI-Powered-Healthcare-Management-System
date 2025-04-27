@@ -176,6 +176,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from django.http import HttpResponse
+import os
+import requests
+
 @csrf_exempt
 @login_required
 def explain_medicine(request):
@@ -183,31 +190,33 @@ def explain_medicine(request):
     if request.method == 'POST':
         medicine_name = ', '.join([m.strip() for m in request.POST.get('medicine_name', '').split(',') if m.strip()])
 
-        payload = {
-            "inputs": f"What is the use of {medicine_name}?"
-        }
+        API_URL = "https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1"  # better smaller model
         headers = {
             "Authorization": f"Bearer {os.environ.get('HF_TOKEN')}"
         }
-        
-        response = requests.post(
-            "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1",
-            headers=headers,
-            json=payload
-        )
 
-        resp_json = response.json()
+        prompt = f"What is the use of {medicine_name}?"
 
-        if isinstance(resp_json, list) and 'generated_text' in resp_json[0]:
-            explanation = resp_json[0]['generated_text']
-        elif 'error' in resp_json:
-            explanation = f"Error: {resp_json['error']}"
+        payload = {
+            "inputs": prompt,
+            "parameters": {
+                "max_new_tokens": 100,
+                "temperature": 0.3,
+                "return_full_text": False
+            }
+        }
+
+        response = requests.post(API_URL, headers=headers, json=payload)
+        if response.status_code == 200:
+            result = response.json()
+            if isinstance(result, list) and 'generated_text' in result[0]:
+                explanation = result[0]['generated_text'].strip()
+            else:
+                explanation = "Could not fetch right now, you can ask your doctor."
         else:
-            explanation = "Could not fetch explanation."
+            explanation = "Could not fetch right now, you can ask your doctor."
 
     return render(request, 'core/explanation.html', {'explanation': explanation})
-
-
 
 import requests
 from django.shortcuts import render
