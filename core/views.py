@@ -183,26 +183,29 @@ def explain_medicine(request):
     if request.method == 'POST':
         medicine_name = ', '.join([m.strip() for m in request.POST.get('medicine_name', '').split(',') if m.strip()])
 
-
-
         payload = {
             "inputs": f"What is the use of {medicine_name}?"
         }
         headers = {
-    "Authorization": f"Bearer {os.environ.get('HF_TOKEN')}"
-}
+            "Authorization": f"Bearer {os.environ.get('HF_TOKEN')}"
+        }
         
         response = requests.post(
-            "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1",  # Or other model
+            "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1",
             headers=headers,
             json=payload
         )
-        explanation = response.json()[0]['generated_text'] if isinstance(response.json(), list) else "Could not fetch explanation."
+
+        resp_json = response.json()
+
+        if isinstance(resp_json, list) and 'generated_text' in resp_json[0]:
+            explanation = resp_json[0]['generated_text']
+        elif 'error' in resp_json:
+            explanation = f"Error: {resp_json['error']}"
+        else:
+            explanation = "Could not fetch explanation."
 
     return render(request, 'core/explanation.html', {'explanation': explanation})
-
-
-
 
 
 
